@@ -11,7 +11,10 @@ const forecast = (longtitude, latitude, callback) => {
     } else {
       const { temperature } = body.current;
       const { feelslike } = body.current;
-      const data = `It's currently ${temperature} degrees outside. It feels like ${feelslike}.`;
+      const weatherDescription = body.current.weather_descriptions[0].toLowerCase();
+      const observationTime = body.current.observation_time;
+      const data = `It's currently ${temperature}°C outside. It feels like ${feelslike}°C. It's ${weatherDescription}.
+      Observation was done at ${observationTime}.`;
 
       callback(undefined, data);
     }
