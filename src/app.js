@@ -4,6 +4,9 @@ const hbs = require("hbs");
 
 const app = express();
 
+// If there is a process.env.PORT (using heroku) then assign that to port, else if ran locally, assign default port value 3000
+const port = process.env.PORT || 3000;
+
 const geocode = require("./utils/geocode.js");
 const forecast = require("./utils/forecast.js");
 
@@ -56,7 +59,7 @@ app.get("/weather", (req, res) => {
       return res.json({
         error: "Unable to find a location. Check that the address is correct.",
       });
-    forecast(longtitude, latitude, (error2, forecastData) => {
+    return forecast(longtitude, latitude, (error2, forecastData) => {
       if (error2) throw error2;
       return res.send({
         forecast: forecastData,
@@ -83,6 +86,6 @@ app.get("*", (req, res) => {
   });
 });
 
-app.listen(3000, () => {
+app.listen(port, () => {
   console.log("Server is up on port 3000.");
 });
